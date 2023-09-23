@@ -1,0 +1,21 @@
+<Project Sdk="Godot.NET.Sdk/4.1.0-beta.1">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>Godot3dToolkit</RootNamespace>
+    <DefaultItemExcludesInProjectFolder>$(DefaultItemExcludesInProjectFolder);script_templates/**</DefaultItemExcludesInProjectFolder>
+    <Nullable>enable</Nullable>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+
+    <Using Include="System" />
+    <Using Include="System.Collections" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="Godot" />
+    <Using Include="Godot.Collections" />
+
+  </ItemGroup>
+
+</Project>
