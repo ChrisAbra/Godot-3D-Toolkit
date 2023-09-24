@@ -46,25 +46,30 @@ public partial class HurtBox3D : Area3D, IDamageCausing
     public override void _Process(double delta)
     {
         if (Engine.IsEditorHint()) return;
-
         if (!isTrackingHitboxes) return;
+        UpdateHitboxes(delta);
 
+    }
+
+    public void UpdateHitboxes(double delta)
+    {
         foreach (var trackedHitbox in cachedTrackedHitboxes)
         {
             trackedHitbox.Value.cooldown -= delta;
-            if (trackedHitbox.Value.cooldown <= Mathf.Epsilon)
+            if (trackedHitbox.Value.cooldown > Mathf.Epsilon) continue;
+            if (trackedHitbox.Value.hitbox is null) // can become null external to this class.
             {
-                if (trackedHitbox.Value.hitbox is null)
-                {
+                removeHitbox(trackedHitbox.Key);
+                continue;
+            }
 
-                }
-                trackedHitbox.Value?.hitbox?.HandleDamage(Damage);
-                trackedHitbox.Value.cooldown = HitCooldown;
-                if (!Repeat)
-                {
-                    removeHitbox(trackedHitbox.Key);
+            trackedHitbox.Value.hitbox.HandleDamage(Damage);
+            trackedHitbox.Value.cooldown = HitCooldown;
 
-                }
+            if (!Repeat)
+            {
+                removeHitbox(trackedHitbox.Key);
+
             }
         }
     }
