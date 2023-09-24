@@ -1,18 +1,13 @@
-[gd_resource type="Resource" script_class="DamageSet" load_steps=5 format=3 uid="uid://cevx8q8t3jywq"]
+[gd_resource type="Resource" script_class="DamageSet" load_steps=4 format=3 uid="uid://cevx8q8t3jywq"]
 
-[ext_resource type="Script" path="res://src/Damage/resources/Damage.cs" id="1_l8i3v"]
+[ext_resource type="Script" path="res://src/Damage/resources/Damage.cs" id="1_adnvt"]
 [ext_resource type="Script" path="res://src/Damage/resources/DamageSet.cs" id="2_dw0v2"]
 
-[sub_resource type="Resource" id="Resource_g7uds"]
-script = ExtResource("1_l8i3v")
-Amount = 10.0
+[sub_resource type="Resource" id="Resource_5ma3b"]
+script = ExtResource("1_adnvt")
+Amount = 0.0
 Type = 1
-
-[sub_resource type="Resource" id="Resource_7jb1f"]
-script = ExtResource("1_l8i3v")
-Amount = 12.0
-Type = 2
 
 [resource]
 script = ExtResource("2_dw0v2")
-Damages = [SubResource("Resource_g7uds"), SubResource("Resource_7jb1f")]
+Damages = [SubResource("Resource_5ma3b")]

@@ -14,9 +14,17 @@ public partial class Damage : Resource
     }
     
     [Export]
-    public double Amount { get; set; } = 10;
+    public double Amount { get; set; }
 
-    [Export(PropertyHint.Enum,"Impact,Fire")]
-    public DamageType Type;
+    [Export]
+    public DamageType Type   
+    {
+        get => _damageType;
+        set {
+            _damageType = _damageType ^ value; // Ensures only one value
+        }
+    }
+
+    DamageType _damageType;
 
 }

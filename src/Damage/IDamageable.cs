@@ -1,8 +1,17 @@
 namespace Godot3dToolkit;
-public partial interface IDamageable
-{
-	double Amount { get; set; }
-	double MaxAmount { get; set; }
 
-	public Node TakeDamage(DamageSet damage);
+public struct Hit {
+	public DamageSet damage;
+	public Vector3 impulse;
+	public Vector3 hitNormal;
+}
+
+public interface IDamageable
+{
+	public void TakeDamage(DamageSet damage);
+
+	public void TakeDamage(Hit hit){
+		TakeDamage(hit.damage);
+	}
+
 }

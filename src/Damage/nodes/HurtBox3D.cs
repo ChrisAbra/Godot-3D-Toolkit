@@ -8,7 +8,7 @@ public partial class HurtBox3D : Area3D, IDamageCausing
 {
     protected class TrackedHitbox
     {
-        public HitBox3D hitbox;
+        public HitArea3D hitbox;
         public double cooldown;
     }
 
@@ -25,7 +25,7 @@ public partial class HurtBox3D : Area3D, IDamageCausing
     public double HitDelay = 0f;
 
 
-    private System.Collections.Generic.Dictionary<HitBox3D, TrackedHitbox> trackedHitboxes = new();
+    private System.Collections.Generic.Dictionary<HitArea3D, TrackedHitbox> trackedHitboxes = new();
     private bool hasHitboxes
     {
         get
@@ -64,7 +64,7 @@ public partial class HurtBox3D : Area3D, IDamageCausing
     public void OnAreaEntered(Area3D enteringArea)
     {
         GD.Print("Area Entered");
-        if (enteringArea is HitBox3D hitbox)
+        if (enteringArea is HitArea3D hitbox)
         {
             trackedHitboxes.Add(hitbox, new TrackedHitbox
             {
@@ -76,7 +76,7 @@ public partial class HurtBox3D : Area3D, IDamageCausing
 
     public void OnAreaExit(Area3D exitingArea)
     {
-        if (exitingArea is HitBox3D hitbox)
+        if (exitingArea is HitArea3D hitbox)
         {
             trackedHitboxes.Remove(hitbox);
         }

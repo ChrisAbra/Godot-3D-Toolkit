@@ -26,19 +26,31 @@ public partial class Hitscan3D : RayCast3D, IDamageCausing
     }
     public float _range;
 
+    [Export]
+    public bool ShootNowInEditor
+    {
+        get => false;
+        set => Fire();
+    }
     public override void _Ready()
     {
-        Enabled = false;
-        CollideWithAreas = true;
-        CollideWithBodies = false;
-        TargetPosition = Vector3.Forward * Range;
+        Enabled = false; //Fired Manually
+        CollideWithAreas = true; //HitBoxes extend Area3D 
+        TargetPosition = Vector3.Forward * Range; //Move/Orient Parent node such as end of gun or make child of camera (consider parallax issues)
     }
 
     public void Fire()
     {
-        if (Test() is not IDamageable damageable) return;
+        ForceRaycastUpdate();
 
-        var target = damageable.TakeDamage(Damage);
+        var target = GetCollider();
+
+        if (target is not IDamageable damageable) return;
+
+        var position = GetCollisionPoint();
+        var normal = GetCollisionNormal();
+
+        damageable.TakeDamage(Damage);
 
         EmitSignal(SignalName.SuccessfulHit, target);
     }
@@ -46,7 +58,6 @@ public partial class Hitscan3D : RayCast3D, IDamageCausing
     public CollisionObject3D Test()
     {
         ForceRaycastUpdate();
-        
         return GetCollider() is CollisionObject3D collisionObject ? collisionObject : null;
     }
 }

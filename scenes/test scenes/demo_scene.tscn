@@ -1,12 +1,31 @@
-[gd_scene load_steps=9 format=3 uid="uid://bemdui8jvt388"]
+[gd_scene load_steps=16 format=3 uid="uid://bemdui8jvt388"]
 
 [ext_resource type="Script" path="res://src/Damage/nodes/Health.cs" id="1_otm5i"]
-[ext_resource type="Resource" uid="uid://cevx8q8t3jywq" path="res://src/Damage/Rifle.tres" id="3_ewr7b"]
+[ext_resource type="Script" path="res://src/Damage/nodes/Shield.cs" id="2_hhr5u"]
+[ext_resource type="Resource" uid="uid://ditc704kdwh0j" path="res://PlayerHealth.tres" id="2_wfey8"]
 [ext_resource type="Script" path="res://src/Damage/nodes/Hitscan3D.cs" id="3_ltg2r"]
+[ext_resource type="Script" path="res://src/Damage/resources/HealthResource.cs" id="4_ydc6h"]
 [ext_resource type="Script" path="res://src/Damage/nodes/HitBox3D.cs" id="5_1pa3c"]
 [ext_resource type="Script" path="res://src/Damage/nodes/HurtBox3D.cs" id="5_2kseu"]
+[ext_resource type="Script" path="res://src/Damage/resources/DamageModifier.cs" id="7_smt3p"]
+[ext_resource type="Script" path="res://src/Damage/resources/DamageModiferSet.cs" id="8_lnd30"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d34xf"]
+
+[sub_resource type="Resource" id="Resource_2ej85"]
+script = ExtResource("4_ydc6h")
+Amount = 0.0
+MaxAmount = 100.0
+
+[sub_resource type="Resource" id="Resource_ea51q"]
+script = ExtResource("7_smt3p")
+Type = 0
+Amount = 0.0
+DamageType = 0
+
+[sub_resource type="Resource" id="Resource_ijmfi"]
+script = ExtResource("8_lnd30")
+Modifiers = [SubResource("Resource_ea51q")]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_n0p3n"]
 
@@ -22,22 +41,28 @@ shape = SubResource("CapsuleShape3D_d34xf")
 
 [node name="Health" type="Node" parent="CharacterBody3D"]
 script = ExtResource("1_otm5i")
+HealthResource = ExtResource("2_wfey8")
+
+[node name="Shield" type="Node" parent="CharacterBody3D/Health"]
+script = ExtResource("2_hhr5u")
+ProtectsFrom = 3
+HealthResource = SubResource("Resource_2ej85")
 
 [node name="Hitscan3D" type="RayCast3D" parent="CharacterBody3D"]
+transform = Transform3D(0.0331029, 0, -0.999452, 0, 1, 0, 0.999452, 0, 0.0331029, -3.17081, 0, 0.0208198)
 enabled = false
 target_position = Vector3(0, 0, -10)
 collide_with_areas = true
 collide_with_bodies = false
 script = ExtResource("3_ltg2r")
-Damage = ExtResource("3_ewr7b")
 Range = 10.0
 
-[node name="HitBox3D" type="Area3D" parent="CharacterBody3D" node_paths=PackedStringArray("Health")]
+[node name="HitBox3D" type="Area3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.19823, 0, 0)
 monitoring = false
 script = ExtResource("5_1pa3c")
-RecievesDamageTypes = 0
-Health = NodePath("../Health")
+RecievesDamageTypes = 3
+Modifier = SubResource("Resource_ijmfi")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/HitBox3D"]
 shape = SubResource("SphereShape3D_n0p3n")

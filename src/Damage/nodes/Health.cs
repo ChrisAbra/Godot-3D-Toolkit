@@ -1,29 +1,27 @@
-
-
 namespace Godot3dToolkit;
 
 [Tool]
 [GlobalClass]
 [Icon("res://src/Damage/assets/Health.svg")]
-public partial class Health : Node, IDamageable
+public partial class Health : BaseHealth
 {
-
-    public double Amount {get;set;} 
-    [Export]
-    public double MaxAmount {get;set;} = 100;
-
-    [Export]
-    public Node DamagedReturnNode {get;set;}
-
-    public Health() : base(){
-        Amount = MaxAmount;
-    }
-
-    public Node TakeDamage(DamageSet damages)
+    [Signal]
+    public delegate void DiedEventHandler();
+    async public override void _Ready()
     {
-        foreach(var damage in damages.Damages){
-            Amount -= damage.Amount;
-        }
-        return DamagedReturnNode ?? this;
+        base._Ready();
+
+        HealthResource.Empty += () =>
+        {
+            EmitSignal(SignalName.Died);
+        };
+
     }
+
+    public override void TakeDamage(DamageSet damageSet){
+        base.TakeDamage(damageSet);
+    }
+
+
 }
+

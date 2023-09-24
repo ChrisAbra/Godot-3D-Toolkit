@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="HealthResource" load_steps=2 format=3 uid="uid://ditc704kdwh0j"]
+
+[ext_resource type="Script" path="res://src/Damage/resources/HealthResource.cs" id="1_unbxy"]
+
+[resource]
+script = ExtResource("1_unbxy")
+Amount = 100.0
+MaxAmount = 100.0
+_amount = 100.0

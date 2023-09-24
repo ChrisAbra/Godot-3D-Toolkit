@@ -1,3 +1,4 @@
+
 namespace Godot3dToolkit;
 [Tool]
 [GlobalClass]
@@ -6,7 +7,7 @@ public partial class DamageSet : Resource
 {
     [Export]
     public Array<Damage> Damages { get; set; } = new Array<Damage>{
-        new Damage{Amount = 10, Type = Damage.DamageType.Impact}
-    };
+        new Damage()
+    };    
 
 }
