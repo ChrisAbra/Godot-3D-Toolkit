@@ -7,6 +7,8 @@ public partial class Health : BaseHealth
 {
     [Signal]
     public delegate void DiedEventHandler();
+
+
     public override void _Ready()
     {
         base._Ready();

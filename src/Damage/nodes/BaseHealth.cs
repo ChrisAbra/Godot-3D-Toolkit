@@ -4,7 +4,6 @@ namespace Godot3dToolkit;
 public abstract partial class BaseHealth : Node, IDamageable
 {
 
-
     public double Amount
     {
         get => HealthResource.Amount;

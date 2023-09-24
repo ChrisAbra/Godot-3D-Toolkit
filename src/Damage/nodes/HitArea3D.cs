@@ -11,7 +11,7 @@ public partial class HitArea3D : Area3D, IHitbox
     public DamageModiferSet Modifier { get; set; }
 
     [Export]
-    public BaseHealth Health { get; set; }
+    public BaseHealth HealthNode { get; set; }
 
 
     public HitArea3D()

@@ -9,14 +9,14 @@ public interface IHitbox
     public DamageModiferSet Modifier { get; set; }
 
     [Export]
-    public BaseHealth Health { get; set; }
+    public BaseHealth HealthNode { get; set; }
 
     public void HandleDamage(DamageSet damage)
     {
         damage = (DamageSet)damage.Duplicate();
         damage = RemoveIncompatibleTypes(damage);
         damage = ApplyModifiers(damage);
-        Health?.TakeDamage(damage);
+        HealthNode?.TakeDamage(damage);
     }
 
     public DamageSet RemoveIncompatibleTypes(DamageSet damage){
