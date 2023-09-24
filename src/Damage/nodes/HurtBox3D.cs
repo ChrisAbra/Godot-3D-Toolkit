@@ -25,8 +25,10 @@ public partial class HurtBox3D : Area3D, IDamageCausing
     public double HitDelay = 0f;
 
 
-    readonly System.Collections.Generic.Dictionary<IHitbox, TrackedHitbox> trackedHitboxes = new();
+    readonly System.Collections.Generic.Dictionary<ulong, TrackedHitbox> trackedHitboxes = new();
     bool isTrackingHitboxes = false;
+
+    IEnumerable<KeyValuePair<ulong, TrackedHitbox>> cachedTrackedHitboxes;
 
     public HurtBox3D()
     {
@@ -47,16 +49,20 @@ public partial class HurtBox3D : Area3D, IDamageCausing
 
         if (!isTrackingHitboxes) return;
 
-        foreach (var trackedHitbox in trackedHitboxes.Values)
+        foreach (var trackedHitbox in cachedTrackedHitboxes)
         {
-            trackedHitbox.cooldown -= delta;
-            if (trackedHitbox.cooldown <= Mathf.Epsilon)
+            trackedHitbox.Value.cooldown -= delta;
+            if (trackedHitbox.Value.cooldown <= Mathf.Epsilon)
             {
-                trackedHitbox.hitbox.HandleDamage(Damage);
-                trackedHitbox.cooldown = HitCooldown;
+                if (trackedHitbox.Value.hitbox is null)
+                {
+
+                }
+                trackedHitbox.Value?.hitbox?.HandleDamage(Damage);
+                trackedHitbox.Value.cooldown = HitCooldown;
                 if (!Repeat)
                 {
-                    removeHitbox(trackedHitbox.hitbox);
+                    removeHitbox(trackedHitbox.Key);
 
                 }
             }
@@ -69,27 +75,37 @@ public partial class HurtBox3D : Area3D, IDamageCausing
 
         if (enteringArea is IHitbox hitbox)
         {
-            GD.Print(enteringArea);
-            trackedHitboxes.Add(hitbox, new TrackedHitbox
-            {
-                hitbox = hitbox,
-                cooldown = HitDelay
-            });
-            isTrackingHitboxes = true;
+            addHitbox(enteringArea.GetInstanceId(), hitbox);
         }
     }
 
     public void OnAreaExit(Node3D exitingArea)
     {
-        if (exitingArea is IHitbox hitbox)
+        if (exitingArea is IHitbox)
         {
-            removeHitbox(hitbox);
+            removeHitbox(exitingArea.GetInstanceId());
         }
     }
 
-    private void removeHitbox(IHitbox hitbox)
+    private void addHitbox(ulong hitboxInstanceId, IHitbox hitbox)
     {
-        trackedHitboxes.Remove(hitbox);
+        trackedHitboxes.Add(
+            hitboxInstanceId,
+            new TrackedHitbox
+            {
+                hitbox = hitbox,
+                cooldown = HitDelay
+            });
+        isTrackingHitboxes = true;
+        cachedTrackedHitboxes = trackedHitboxes.AsEnumerable();
+
+    }
+
+    private void removeHitbox(ulong hitboxInstanceId)
+    {
+        trackedHitboxes.Remove(hitboxInstanceId);
+        cachedTrackedHitboxes = trackedHitboxes.AsEnumerable();
         isTrackingHitboxes = trackedHitboxes.Count() > 0;
+
     }
 }
