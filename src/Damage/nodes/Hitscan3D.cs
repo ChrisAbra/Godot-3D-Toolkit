@@ -45,12 +45,12 @@ public partial class Hitscan3D : RayCast3D, IDamageCausing
 
         var target = GetCollider();
 
-        if (target is not IDamageable damageable) return;
+        if (target is not IHitbox hitbox) return;
 
         var position = GetCollisionPoint();
         var normal = GetCollisionNormal();
 
-        damageable.TakeDamage(Damage);
+        hitbox.HandleDamage(Damage);
 
         EmitSignal(SignalName.SuccessfulHit, target);
     }

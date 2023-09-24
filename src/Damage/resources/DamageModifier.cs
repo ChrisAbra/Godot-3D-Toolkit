@@ -33,8 +33,9 @@ public partial class DamageModifier : Resource
     Damage.DamageType _damageType; 
 
 
-    public DamageSet ApplyModifier(DamageSet input){
-        return input;
+    public DamageSet ApplyModifier(ref DamageSet damageSet){
+        GD.Print("Damage Modifiers not implemented");
+        return damageSet;
     }
 
 }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Godot3dToolkit;
+﻿namespace Godot3dToolkit;
 
 public interface IHitbox
 {
@@ -13,10 +11,12 @@ public interface IHitbox
     [Export]
     public BaseHealth Health { get; set; }
 
-    public DamageSet ApplyModifiers(DamageSet damage){
+    public void HandleDamage(DamageSet damage);
+
+    public DamageSet ApplyModifiers(ref DamageSet damage){
         if (Modifier is not null)
         {
-            damage = Modifier.ApplyModifiers(damage);
+            damage = Modifier.ApplyModifiers(ref damage);
         }
         return damage;
 

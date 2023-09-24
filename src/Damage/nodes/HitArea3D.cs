@@ -2,7 +2,7 @@ namespace Godot3dToolkit;
 [Tool]
 [GlobalClass]
 [Icon("res://src/Damage/assets/Damagable.svg")]
-public partial class HitArea3D : Area3D, IHitbox, IDamageable
+public partial class HitArea3D : Area3D, IHitbox
 {
     [Export]
     public Damage.DamageType RecievesDamageTypes { get; set; } = Damage.DamageType.Impact;
@@ -19,10 +19,10 @@ public partial class HitArea3D : Area3D, IHitbox, IDamageable
         Monitoring = false;
     }
 
-    public void TakeDamage(DamageSet damage)
+    public void HandleDamage(DamageSet damage)
     {
-        damage = (this as IHitbox).ApplyModifiers(damage);
-        Health?.TakeDamage(damage);
+        damage = (this as IHitbox).ApplyModifiers(ref damage);
+        Health?.TakeDamage(ref damage);
     }
 
 }

@@ -10,11 +10,11 @@ public partial class DamageModiferSet : Resource
         new DamageModifier()
     };    
 
-    public DamageSet ApplyModifiers(DamageSet input){
+    public DamageSet ApplyModifiers(ref DamageSet damageSet){
         foreach(var modifier in Modifiers){
-            input = modifier.ApplyModifier(input);
+            damageSet = modifier.ApplyModifier(ref damageSet);
         }
-        return input;
+        return damageSet;
     }
 
 }

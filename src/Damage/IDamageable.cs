@@ -8,10 +8,10 @@ public struct Hit {
 
 public interface IDamageable
 {
-	public void TakeDamage(DamageSet damage);
+	public void TakeDamage(ref DamageSet damage);
 
-	public void TakeDamage(Hit hit){
-		TakeDamage(hit.damage);
+	public void TakeDamage(ref Hit hit){
+		TakeDamage(ref hit.damage);
 	}
 
 }
