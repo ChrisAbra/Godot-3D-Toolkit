@@ -18,9 +18,9 @@ public partial class Health : BaseHealth
 
     }
 
-    public override void TakeDamage(ref DamageSet damageSet){
+    public override void TakeDamage(DamageSet damageSet){
         //TODO: Add ability to forward damage to shield;
-        base.TakeDamage(ref damageSet);
+        base.TakeDamage(damageSet);
     }
 
 

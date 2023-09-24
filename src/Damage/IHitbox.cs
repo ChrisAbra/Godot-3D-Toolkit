@@ -11,12 +11,23 @@ public interface IHitbox
     [Export]
     public BaseHealth Health { get; set; }
 
-    public void HandleDamage(DamageSet damage);
+    public void HandleDamage(DamageSet damage)
+    {
+        damage = (DamageSet)damage.Duplicate();
+        damage = RemoveIncompatibleTypes(damage);
+        damage = ApplyModifiers(damage);
+        Health?.TakeDamage(damage);
+    }
 
-    public DamageSet ApplyModifiers(ref DamageSet damage){
+    public DamageSet RemoveIncompatibleTypes(DamageSet damage){
+        return damage;
+    }
+
+    public DamageSet ApplyModifiers(DamageSet damage)
+    {
         if (Modifier is not null)
         {
-            damage = Modifier.ApplyModifiers(ref damage);
+            damage = Modifier.ApplyModifiers(damage);
         }
         return damage;
 

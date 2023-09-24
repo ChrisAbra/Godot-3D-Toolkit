@@ -50,7 +50,7 @@ public partial class Hitscan3D : RayCast3D, IDamageCausing
         var position = GetCollisionPoint();
         var normal = GetCollisionNormal();
 
-        hitbox.HandleDamage(Damage);
+        hitbox.HandleDamage((DamageSet)Damage.Duplicate(true));
 
         EmitSignal(SignalName.SuccessfulHit, target);
     }

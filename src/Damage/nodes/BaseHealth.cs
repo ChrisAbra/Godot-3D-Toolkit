@@ -25,7 +25,7 @@ public abstract partial class BaseHealth : Node, IDamageable
     [Export(PropertyHint.Range)]
     public HealthResource HealthResource = new();
 
-    public virtual void TakeDamage(ref DamageSet damageSet)
+    public virtual void TakeDamage(DamageSet damageSet)
     {
         foreach(var damage in damageSet.Damages){
             Amount -= damage.Amount;
