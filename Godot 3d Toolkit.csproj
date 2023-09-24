@@ -4,7 +4,6 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>Godot3dToolkit</RootNamespace>
     <DefaultItemExcludesInProjectFolder>$(DefaultItemExcludesInProjectFolder);script_templates/**</DefaultItemExcludesInProjectFolder>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <Using Include="System" />

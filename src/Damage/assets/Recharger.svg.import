@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://onfmwig3fqsw"
-path="res://.godot/imported/Health.svg-97143d30c2db400095541e993cb655dd.ctex"
+uid="uid://bcupmb5p2hpqu"
+path="res://.godot/imported/Recharger.svg-0d1234494dc6b6d522d645e6819862e3.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://src/nodes/Damagable/assets/Health.svg"
-dest_files=["res://.godot/imported/Health.svg-97143d30c2db400095541e993cb655dd.ctex"]
+source_file="res://src/Damage/assets/Recharger.svg"
+dest_files=["res://.godot/imported/Recharger.svg-0d1234494dc6b6d522d645e6819862e3.ctex"]
 
 [params]
 

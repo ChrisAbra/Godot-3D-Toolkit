@@ -1,5 +1,50 @@
-[gd_scene format=3 uid="uid://bemdui8jvt388"]
+[gd_scene load_steps=9 format=3 uid="uid://bemdui8jvt388"]
+
+[ext_resource type="Script" path="res://src/Damage/nodes/Health.cs" id="1_otm5i"]
+[ext_resource type="Resource" uid="uid://cevx8q8t3jywq" path="res://src/Damage/Rifle.tres" id="3_ewr7b"]
+[ext_resource type="Script" path="res://src/Damage/nodes/Hitscan3D.cs" id="3_ltg2r"]
+[ext_resource type="Script" path="res://src/Damage/nodes/HitBox3D.cs" id="5_1pa3c"]
+[ext_resource type="Script" path="res://src/Damage/nodes/HurtBox3D.cs" id="5_2kseu"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d34xf"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_n0p3n"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dv1jw"]
 
 [node name="DemoScene" type="Node3D"]
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.191372, 0)
+shape = SubResource("CapsuleShape3D_d34xf")
+
+[node name="Health" type="Node" parent="CharacterBody3D"]
+script = ExtResource("1_otm5i")
+
+[node name="Hitscan3D" type="RayCast3D" parent="CharacterBody3D"]
+enabled = false
+target_position = Vector3(0, 0, -10)
+collide_with_areas = true
+collide_with_bodies = false
+script = ExtResource("3_ltg2r")
+Damage = ExtResource("3_ewr7b")
+Range = 10.0
+
+[node name="HitBox3D" type="Area3D" parent="CharacterBody3D" node_paths=PackedStringArray("Health")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.19823, 0, 0)
+monitoring = false
+script = ExtResource("5_1pa3c")
+RecievesDamageTypes = 0
+Health = NodePath("../Health")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/HitBox3D"]
+shape = SubResource("SphereShape3D_n0p3n")
+
+[node name="HurtBox3D" type="Area3D" parent="CharacterBody3D"]
+monitorable = false
+script = ExtResource("5_2kseu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/HurtBox3D"]
+shape = SubResource("BoxShape3D_dv1jw")

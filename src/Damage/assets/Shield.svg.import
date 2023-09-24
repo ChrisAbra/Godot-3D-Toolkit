@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fpg8twpb8vxt"
-path="res://.godot/imported/PlayerInputController.svg-b68fada81af5bce2b28b23dedfb87fd2.ctex"
+uid="uid://cif3gox5602r"
+path="res://.godot/imported/Shield.svg-25ed275d8e0d16b5241140da786eee78.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://src/nodes/Damagable/assets/PlayerInputController.svg"
-dest_files=["res://.godot/imported/PlayerInputController.svg-b68fada81af5bce2b28b23dedfb87fd2.ctex"]
+source_file="res://src/Damage/assets/Shield.svg"
+dest_files=["res://.godot/imported/Shield.svg-25ed275d8e0d16b5241140da786eee78.ctex"]
 
 [params]
 

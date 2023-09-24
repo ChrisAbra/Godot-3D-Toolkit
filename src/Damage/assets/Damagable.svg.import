@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cif3gox5602r"
-path="res://.godot/imported/Shield.svg-f84d12405813165bea2f4379dd2baf56.ctex"
+uid="uid://dj67uxhgtkgqg"
+path="res://.godot/imported/Damagable.svg-55d687b0a4fba7c874e5a91d3fcd07d2.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://src/nodes/Damagable/assets/Shield.svg"
-dest_files=["res://.godot/imported/Shield.svg-f84d12405813165bea2f4379dd2baf56.ctex"]
+source_file="res://src/Damage/assets/Damagable.svg"
+dest_files=["res://.godot/imported/Damagable.svg-55d687b0a4fba7c874e5a91d3fcd07d2.ctex"]
 
 [params]
 
