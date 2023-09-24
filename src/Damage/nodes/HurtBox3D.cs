@@ -8,7 +8,7 @@ public partial class HurtBox3D : Area3D, IDamageCausing
 {
     protected class TrackedHitbox
     {
-        public HitArea3D hitbox;
+        public IHitbox hitbox;
         public double cooldown;
     }
 
@@ -25,7 +25,7 @@ public partial class HurtBox3D : Area3D, IDamageCausing
     public double HitDelay = 0f;
 
 
-    private System.Collections.Generic.Dictionary<HitArea3D, TrackedHitbox> trackedHitboxes = new();
+    private System.Collections.Generic.Dictionary<IHitbox, TrackedHitbox> trackedHitboxes = new();
     private bool hasHitboxes
     {
         get
@@ -37,7 +37,14 @@ public partial class HurtBox3D : Area3D, IDamageCausing
     public HurtBox3D()
     {
         Monitorable = false;
+    }
+
+    public override void _Ready()
+    {
         AreaEntered += OnAreaEntered;
+        BodyEntered += OnAreaEntered;
+        AreaExited += OnAreaExit;
+        BodyExited += OnAreaExit;
     }
 
     public override void _Process(double delta)
@@ -51,7 +58,7 @@ public partial class HurtBox3D : Area3D, IDamageCausing
             trackedHitbox.cooldown -= delta;
             if (trackedHitbox.cooldown <= Mathf.Epsilon)
             {
-                trackedHitbox.hitbox.TakeDamage(Damage);
+                trackedHitbox.hitbox.HandleDamage(Damage);
                 if (!Repeat)
                 {
                     trackedHitboxes.Remove(trackedHitbox.hitbox);
@@ -61,11 +68,13 @@ public partial class HurtBox3D : Area3D, IDamageCausing
         }
     }
 
-    public void OnAreaEntered(Area3D enteringArea)
+    public void OnAreaEntered(Node3D enteringArea)
     {
         GD.Print("Area Entered");
-        if (enteringArea is HitArea3D hitbox)
+
+        if (enteringArea is IHitbox hitbox)
         {
+            GD.Print(enteringArea);
             trackedHitboxes.Add(hitbox, new TrackedHitbox
             {
                 hitbox = hitbox,
@@ -74,9 +83,9 @@ public partial class HurtBox3D : Area3D, IDamageCausing
         }
     }
 
-    public void OnAreaExit(Area3D exitingArea)
+    public void OnAreaExit(Node3D exitingArea)
     {
-        if (exitingArea is HitArea3D hitbox)
+        if (exitingArea is IHitbox hitbox)
         {
             trackedHitboxes.Remove(hitbox);
         }

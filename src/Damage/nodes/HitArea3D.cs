@@ -21,6 +21,8 @@ public partial class HitArea3D : Area3D, IHitbox
 
     public void HandleDamage(DamageSet damage)
     {
+        GD.Print("TakeDamage");
+        GD.Print(damage);
         damage = (this as IHitbox).ApplyModifiers(ref damage);
         Health?.TakeDamage(ref damage);
     }

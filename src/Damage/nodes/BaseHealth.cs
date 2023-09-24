@@ -16,7 +16,7 @@ public abstract partial class BaseHealth : Node, IDamageable
 
     public double MaxAmount {get;set;}
 
-    async public override void _Ready()
+    public override void _Ready()
     {
         Amount = HealthResource.Amount;
         MaxAmount = HealthResource.MaxAmount;

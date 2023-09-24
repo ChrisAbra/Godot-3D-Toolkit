@@ -19,7 +19,7 @@ public partial class Shield : BaseHealth
     public DamageSet RemainingDamage;
 
 
-    async public override void _Ready()
+    public override void _Ready()
     {
         base._Ready();
 
