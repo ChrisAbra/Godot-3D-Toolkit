@@ -1,9 +1,7 @@
-[gd_scene load_steps=19 format=3 uid="uid://bemdui8jvt388"]
+[gd_scene load_steps=17 format=3 uid="uid://bemdui8jvt388"]
 
 [ext_resource type="Script" path="res://src/Damage/nodes/Health.cs" id="1_otm5i"]
 [ext_resource type="Script" path="res://src/Damage/nodes/Shield.cs" id="2_hhr5u"]
-[ext_resource type="Resource" uid="uid://ditc704kdwh0j" path="res://PlayerHealth.tres" id="2_wfey8"]
-[ext_resource type="Resource" uid="uid://cevx8q8t3jywq" path="res://src/Damage/Rifle.tres" id="3_ewr7b"]
 [ext_resource type="Script" path="res://src/Damage/nodes/Hitscan3D.cs" id="3_ltg2r"]
 [ext_resource type="Script" path="res://src/Damage/resources/HealthResource.cs" id="4_ydc6h"]
 [ext_resource type="Script" path="res://src/Damage/nodes/HurtBox3D.cs" id="5_2kseu"]
@@ -45,7 +43,6 @@ shape = SubResource("CapsuleShape3D_d34xf")
 
 [node name="Health" type="Node" parent="CharacterBody3D"]
 script = ExtResource("1_otm5i")
-HealthResource = ExtResource("2_wfey8")
 
 [node name="Shield" type="Node" parent="CharacterBody3D/Health"]
 script = ExtResource("2_hhr5u")
@@ -59,7 +56,6 @@ target_position = Vector3(0, 0, -2)
 collide_with_areas = true
 collide_with_bodies = false
 script = ExtResource("3_ltg2r")
-Damage = ExtResource("3_ewr7b")
 Range = 2.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
