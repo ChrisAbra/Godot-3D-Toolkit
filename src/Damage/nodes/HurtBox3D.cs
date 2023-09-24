@@ -25,14 +25,8 @@ public partial class HurtBox3D : Area3D, IDamageCausing
     public double HitDelay = 0f;
 
 
-    private System.Collections.Generic.Dictionary<IHitbox, TrackedHitbox> trackedHitboxes = new();
-    private bool hasHitboxes
-    {
-        get
-        {
-            return trackedHitboxes.Count > 0;
-        }
-    }
+    readonly System.Collections.Generic.Dictionary<IHitbox, TrackedHitbox> trackedHitboxes = new();
+    bool isTrackingHitboxes = false;
 
     public HurtBox3D()
     {
@@ -51,7 +45,7 @@ public partial class HurtBox3D : Area3D, IDamageCausing
     {
         if (Engine.IsEditorHint()) return;
 
-        if (!hasHitboxes) return;
+        if (!isTrackingHitboxes) return;
 
         foreach (var trackedHitbox in trackedHitboxes.Values)
         {
@@ -59,11 +53,12 @@ public partial class HurtBox3D : Area3D, IDamageCausing
             if (trackedHitbox.cooldown <= Mathf.Epsilon)
             {
                 trackedHitbox.hitbox.HandleDamage(Damage);
+                trackedHitbox.cooldown = HitCooldown;
                 if (!Repeat)
                 {
-                    trackedHitboxes.Remove(trackedHitbox.hitbox);
+                    removeHitbox(trackedHitbox.hitbox);
+
                 }
-                trackedHitbox.cooldown = HitCooldown;
             }
         }
     }
@@ -80,6 +75,7 @@ public partial class HurtBox3D : Area3D, IDamageCausing
                 hitbox = hitbox,
                 cooldown = HitDelay
             });
+            isTrackingHitboxes = true;
         }
     }
 
@@ -87,7 +83,13 @@ public partial class HurtBox3D : Area3D, IDamageCausing
     {
         if (exitingArea is IHitbox hitbox)
         {
-            trackedHitboxes.Remove(hitbox);
+            removeHitbox(hitbox);
         }
+    }
+
+    private void removeHitbox(IHitbox hitbox)
+    {
+        trackedHitboxes.Remove(hitbox);
+        isTrackingHitboxes = trackedHitboxes.Count() > 0;
     }
 }
