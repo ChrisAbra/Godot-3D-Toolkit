@@ -27,10 +27,16 @@ public partial class Hitscan3D : RayCast3D, IDamageCausing
     public float _range;
 
     [Export]
+    public float Knockback = 0f;
+
+    [Export]
     public bool ShootNowInEditor
     {
         get => false;
-        set => Fire();
+        set
+        {
+            if (value) Fire();
+        }
     }
     public override void _Ready()
     {
@@ -41,16 +47,23 @@ public partial class Hitscan3D : RayCast3D, IDamageCausing
 
     public void Fire()
     {
+        if (Damage is null) { GD.PrintErr("Damage on Hitscan3D not set: ", this); return; }
+
         ForceRaycastUpdate();
 
         var target = GetCollider();
 
         if (target is not IHitbox hitbox) return;
 
-        var position = GetCollisionPoint();
-        var normal = GetCollisionNormal();
+        Hit hit = new Hit
+        {
+            damage = (DamageSet)Damage.Duplicate(true),
+            impulse = GetCollisionPoint() * Knockback,
+            hitNormal = GetCollisionNormal()
+        };
 
-        hitbox.HandleDamage((DamageSet)Damage.Duplicate(true));
+
+        hitbox.TakeHit(hit);
 
         EmitSignal(SignalName.SuccessfulHit, target);
     }

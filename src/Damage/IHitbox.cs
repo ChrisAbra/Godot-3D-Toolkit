@@ -11,7 +11,12 @@ public interface IHitbox
     [Export]
     public BaseHealth HealthNode { get; set; }
 
-    public void HandleDamage(DamageSet damage)
+    public void TakeHit(Hit hit){
+        GD.Print(hit);
+        TakeDamage(hit.damage);
+    }
+
+    public void TakeDamage(DamageSet damage)
     {
         damage = (DamageSet)damage.Duplicate();
         damage = RemoveIncompatibleTypes(damage);

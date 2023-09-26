@@ -34,6 +34,9 @@ public partial class HurtBox3D : Area3D, IDamageCausing
     {
         Monitorable = false;
     }
+    ~HurtBox3D(){
+        trackedHitboxes.Clear();
+    }
 
     public override void _Ready()
     {
@@ -48,8 +51,8 @@ public partial class HurtBox3D : Area3D, IDamageCausing
         if (Engine.IsEditorHint()) return;
         if (!isTrackingHitboxes) return;
         UpdateHitboxes(delta);
-
     }
+
 
     public void UpdateHitboxes(double delta)
     {
@@ -63,20 +66,19 @@ public partial class HurtBox3D : Area3D, IDamageCausing
                 continue;
             }
 
-            trackedHitbox.Value.hitbox.HandleDamage(Damage);
+            trackedHitbox.Value.hitbox.TakeDamage(Damage);
             trackedHitbox.Value.cooldown = HitCooldown;
 
             if (!Repeat)
             {
                 removeHitbox(trackedHitbox.Key);
-
             }
         }
     }
 
     public void OnAreaEntered(Node3D enteringArea)
     {
-        GD.Print("Area Entered");
+        if (Damage is null) { GD.PrintErr("Damage on HurtBox3D not set: ",this); return; }
 
         if (enteringArea is IHitbox hitbox)
         {

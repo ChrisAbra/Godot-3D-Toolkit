@@ -1,29 +1,41 @@
-[gd_scene load_steps=17 format=3 uid="uid://bemdui8jvt388"]
+[gd_scene load_steps=18 format=3 uid="uid://bemdui8jvt388"]
 
 [ext_resource type="Script" path="res://src/Damage/nodes/Health.cs" id="1_otm5i"]
 [ext_resource type="Script" path="res://src/Damage/nodes/Shield.cs" id="2_hhr5u"]
 [ext_resource type="Script" path="res://src/Damage/nodes/Hitscan3D.cs" id="3_ltg2r"]
-[ext_resource type="Script" path="res://src/Damage/resources/HealthResource.cs" id="4_ydc6h"]
+[ext_resource type="Script" path="res://src/Damage/resources/HealthResource.cs" id="3_wjhje"]
 [ext_resource type="Script" path="res://src/Damage/nodes/HurtBox3D.cs" id="5_2kseu"]
-[ext_resource type="Script" path="res://src/Damage/resources/Damage.cs" id="8_1akat"]
 [ext_resource type="Script" path="res://src/Damage/nodes/HitArea3D.cs" id="8_w78o7"]
-[ext_resource type="Script" path="res://src/Damage/resources/DamageSet.cs" id="9_025x1"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s7n4f"]
+sky_top_color = Color(0.290196, 0.435294, 0.752941, 1)
+sky_horizon_color = Color(0.737255, 0.643137, 0.458824, 1)
+sky_curve = 0.121838
+
+[sub_resource type="Sky" id="Sky_s37ag"]
+sky_material = SubResource("ProceduralSkyMaterial_s7n4f")
+radiance_size = 2
+
+[sub_resource type="Environment" id="Environment_v8ecq"]
+background_mode = 2
+sky = SubResource("Sky_s37ag")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 2
+fog_sky_affect = 0.01
+volumetric_fog_density = 0.0144
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d34xf"]
 
-[sub_resource type="Resource" id="Resource_2ej85"]
-script = ExtResource("4_ydc6h")
-Amount = 0.0
+[sub_resource type="Resource" id="Resource_k56or"]
+script = ExtResource("3_wjhje")
+Amount = 100.0
 MaxAmount = 100.0
 
-[sub_resource type="Resource" id="Resource_tckgf"]
-script = ExtResource("8_1akat")
-Amount = 10.0
-Type = 1
-
-[sub_resource type="Resource" id="Resource_icj8i"]
-script = ExtResource("9_025x1")
-Damages = [SubResource("Resource_tckgf")]
+[sub_resource type="Resource" id="Resource_eu6cx"]
+script = ExtResource("3_wjhje")
+Amount = 0.0
+MaxAmount = 100.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dv1jw"]
 
@@ -31,9 +43,21 @@ Damages = [SubResource("Resource_tckgf")]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tandw"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_e71no"]
+bounce = 0.8
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_sgvj1"]
 
 [node name="DemoScene" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.53114, 0.0744641, 0.844006, -0.568963, 0.769471, 0.290165, -0.627831, -0.634326, 0.451064, 2.43822, 1.78244, 0)
+light_color = Color(0.843137, 0.717647, 0.411765, 1)
+shadow_enabled = true
+directional_shadow_mode = 1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_v8ecq")
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 
@@ -43,20 +67,21 @@ shape = SubResource("CapsuleShape3D_d34xf")
 
 [node name="Health" type="Node" parent="CharacterBody3D"]
 script = ExtResource("1_otm5i")
+HealthResource = SubResource("Resource_k56or")
 
 [node name="Shield" type="Node" parent="CharacterBody3D/Health"]
 script = ExtResource("2_hhr5u")
 ProtectsFrom = 3
-HealthResource = SubResource("Resource_2ej85")
+HealthResource = SubResource("Resource_eu6cx")
 
 [node name="Hitscan3D" type="RayCast3D" parent="CharacterBody3D"]
-transform = Transform3D(0.0730816, 0, -0.997326, 0, 1, 0, 0.997326, 0, 0.0730815, -3.17081, 0, 0.0208198)
+transform = Transform3D(0.220238, -0.68085, -0.698526, 0.414793, 0.713507, -0.564672, 0.88286, -0.165382, 0.439553, -3.17081, 0, 0.0208198)
 enabled = false
-target_position = Vector3(0, 0, -2)
+target_position = Vector3(0, 0, -4.68)
 collide_with_areas = true
 collide_with_bodies = false
 script = ExtResource("3_ltg2r")
-Range = 2.0
+Range = 4.68
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.999739, 0.0228618, 0, -0.0228618, 0.999739, 0, 0.418089, 1.70155)
@@ -65,7 +90,6 @@ transform = Transform3D(1, 0, 0, 0, 0.999739, 0.0228618, 0, -0.0228618, 0.999739
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.13, -2.034)
 monitorable = false
 script = ExtResource("5_2kseu")
-Damage = SubResource("Resource_icj8i")
 HitDelay = 2.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox3D"]
@@ -81,16 +105,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.80667, -2.04785)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
 shape = SubResource("SphereShape3D_arwoy")
 
-[node name="HitArea3D" type="Area3D" parent="RigidBody3D" node_paths=PackedStringArray("Health")]
+[node name="HitArea3D" type="Area3D" parent="RigidBody3D"]
 monitoring = false
 script = ExtResource("8_w78o7")
-Health = NodePath("../../CharacterBody3D/Health")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D/HitArea3D"]
 shape = SubResource("BoxShape3D_tandw")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.99301, -2.03211)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.227241, -2.22821, -2.03211)
+physics_material_override = SubResource("PhysicsMaterial_e71no")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("BoxShape3D_sgvj1")
