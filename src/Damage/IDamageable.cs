@@ -2,6 +2,7 @@ namespace Godot3dToolkit;
 
 public struct Hit {
 	public DamageSet damage;
+	public Vector3 position;
 	public Vector3 impulse;
 	public Vector3 hitNormal;
 }

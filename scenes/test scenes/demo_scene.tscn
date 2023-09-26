@@ -1,10 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://bemdui8jvt388"]
+[gd_scene load_steps=21 format=3 uid="uid://bemdui8jvt388"]
 
 [ext_resource type="Script" path="res://src/Damage/nodes/Health.cs" id="1_otm5i"]
 [ext_resource type="Script" path="res://src/Damage/nodes/Shield.cs" id="2_hhr5u"]
+[ext_resource type="Script" path="res://src/Damage/resources/HealthResource.cs" id="3_2abq3"]
 [ext_resource type="Script" path="res://src/Damage/nodes/Hitscan3D.cs" id="3_ltg2r"]
-[ext_resource type="Script" path="res://src/Damage/resources/HealthResource.cs" id="3_wjhje"]
 [ext_resource type="Script" path="res://src/Damage/nodes/HurtBox3D.cs" id="5_2kseu"]
+[ext_resource type="Script" path="res://src/Damage/resources/DamageSet.cs" id="6_b270m"]
 [ext_resource type="Script" path="res://src/Damage/nodes/HitArea3D.cs" id="8_w78o7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s7n4f"]
@@ -27,26 +28,31 @@ volumetric_fog_density = 0.0144
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d34xf"]
 
-[sub_resource type="Resource" id="Resource_k56or"]
-script = ExtResource("3_wjhje")
-Amount = 100.0
-MaxAmount = 100.0
-
-[sub_resource type="Resource" id="Resource_eu6cx"]
-script = ExtResource("3_wjhje")
+[sub_resource type="Resource" id="Resource_jtfoi"]
+script = ExtResource("3_2abq3")
 Amount = 0.0
 MaxAmount = 100.0
 
+[sub_resource type="Resource" id="Resource_5ft71"]
+script = ExtResource("3_2abq3")
+Amount = 0.0
+MaxAmount = 100.0
+
+[sub_resource type="Resource" id="Resource_urse0"]
+
+[sub_resource type="Resource" id="Resource_8y3jx"]
+script = ExtResource("6_b270m")
+Damages = [SubResource("Resource_urse0")]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_dv1jw"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_arwoy"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_wmn1q"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tandw"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_e71no"]
-bounce = 0.8
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ghnhh"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_sgvj1"]
+[sub_resource type="QuadMesh" id="QuadMesh_iu66s"]
 
 [node name="DemoScene" type="Node3D"]
 
@@ -62,32 +68,35 @@ environment = SubResource("Environment_v8ecq")
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.191372, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.191372, -0.61563)
 shape = SubResource("CapsuleShape3D_d34xf")
 
 [node name="Health" type="Node" parent="CharacterBody3D"]
 script = ExtResource("1_otm5i")
-HealthResource = SubResource("Resource_k56or")
+HealthResource = SubResource("Resource_jtfoi")
 
 [node name="Shield" type="Node" parent="CharacterBody3D/Health"]
 script = ExtResource("2_hhr5u")
 ProtectsFrom = 3
-HealthResource = SubResource("Resource_eu6cx")
+HealthResource = SubResource("Resource_5ft71")
 
 [node name="Hitscan3D" type="RayCast3D" parent="CharacterBody3D"]
-transform = Transform3D(0.220238, -0.68085, -0.698526, 0.414793, 0.713507, -0.564672, 0.88286, -0.165382, 0.439553, -3.17081, 0, 0.0208198)
+transform = Transform3D(-0.189564, 0.0301178, -0.981406, 0.279036, -0.956665, -0.0832552, -0.941384, -0.289629, 0.172946, -1.98461, 0.459254, -1.72836)
 enabled = false
 target_position = Vector3(0, 0, -4.68)
 collide_with_areas = true
 collide_with_bodies = false
 script = ExtResource("3_ltg2r")
+Damage = SubResource("Resource_8y3jx")
 Range = 4.68
+Knockback = 1.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.999739, 0.0228618, 0, -0.0228618, 0.999739, 0, 0.418089, 1.70155)
 
 [node name="HurtBox3D" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.13, -2.034)
+visible = false
 monitorable = false
 script = ExtResource("5_2kseu")
 HitDelay = 2.0
@@ -98,25 +107,27 @@ shape = SubResource("BoxShape3D_dv1jw")
 [node name="CSGBox3D" type="CSGBox3D" parent="HurtBox3D"]
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.80667, -2.04785)
-
-[node name="CSGSphere3D" type="CSGSphere3D" parent="RigidBody3D"]
+transform = Transform3D(0.00495673, 0, 0.999988, 0, 1, 0, -0.999988, 0, 0.00495673, 0, 1.66426, -2.04785)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-shape = SubResource("SphereShape3D_arwoy")
+shape = SubResource("BoxShape3D_wmn1q")
 
-[node name="HitArea3D" type="Area3D" parent="RigidBody3D"]
+[node name="HitArea3D" type="Area3D" parent="RigidBody3D" node_paths=PackedStringArray("KnockbackNode")]
 monitoring = false
 script = ExtResource("8_w78o7")
+KnockbackNode = NodePath("..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D/HitArea3D"]
 shape = SubResource("BoxShape3D_tandw")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.227241, -2.22821, -2.03211)
-physics_material_override = SubResource("PhysicsMaterial_e71no")
+[node name="CSGBox3D" type="CSGBox3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 1.41972e-08, 0, 1, 0, 1.41972e-08, 0, 1, 0, 0, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_sgvj1")
+[node name="StaticBody3D2" type="StaticBody3D" parent="."]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
+shape = SubResource("WorldBoundaryShape3D_ghnhh")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="StaticBody3D2"]
+transform = Transform3D(16.69, -1.16425e-14, -2.54455e-22, -2.54455e-22, -7.29543e-07, 16.69, -1.16425e-14, -16.69, -7.29543e-07, 0, 0, 0)
+mesh = SubResource("QuadMesh_iu66s")

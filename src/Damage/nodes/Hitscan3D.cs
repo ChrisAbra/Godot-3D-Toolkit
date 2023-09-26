@@ -55,11 +55,13 @@ public partial class Hitscan3D : RayCast3D, IDamageCausing
 
         if (target is not IHitbox hitbox) return;
 
+        var hitpoint = GetCollisionPoint();
         Hit hit = new Hit
         {
             damage = (DamageSet)Damage.Duplicate(true),
-            impulse = GetCollisionPoint() * Knockback,
-            hitNormal = GetCollisionNormal()
+            position = hitpoint,
+            hitNormal = GetCollisionNormal(),
+            impulse = Knockback * (hitpoint - GlobalPosition)
         };
 
 
@@ -72,5 +74,14 @@ public partial class Hitscan3D : RayCast3D, IDamageCausing
     {
         ForceRaycastUpdate();
         return GetCollider() is CollisionObject3D collisionObject ? collisionObject : null;
+    }
+
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("Fire"))
+        {
+            Fire();
+        }
     }
 }

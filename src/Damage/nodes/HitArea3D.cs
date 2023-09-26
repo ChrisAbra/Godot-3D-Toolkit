@@ -12,7 +12,8 @@ public partial class HitArea3D : Area3D, IHitbox
 
     [Export]
     public BaseHealth HealthNode { get; set; }
-
+    [Export]
+    public RigidBody3D KnockbackNode { get; set; }
 
     public HitArea3D()
     {

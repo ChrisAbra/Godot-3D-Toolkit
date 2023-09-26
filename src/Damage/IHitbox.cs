@@ -10,9 +10,16 @@ public interface IHitbox
 
     [Export]
     public BaseHealth HealthNode { get; set; }
+    [Export]
+    public RigidBody3D KnockbackNode { get; set; }
 
     public void TakeHit(Hit hit){
         GD.Print(hit);
+        GD.Print(hit.position);
+        GD.Print(hit.impulse);
+        GD.Print(hit.hitNormal);
+        
+        KnockbackNode?.ApplyImpulse(hit.impulse,hit.position);
         TakeDamage(hit.damage);
     }
 
