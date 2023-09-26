@@ -56,7 +56,7 @@ public partial class Hitscan3D : RayCast3D, IDamageCausing
         if (target is not IHitbox hitbox) return;
 
         var hitpoint = GetCollisionPoint();
-        Hit hit = new Hit
+        IHitbox.Hit hit = new IHitbox.Hit
         {
             damage = (DamageSet)Damage.Duplicate(true),
             position = hitpoint,
