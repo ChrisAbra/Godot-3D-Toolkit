@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vexne8j4f3nj"
-path="res://.godot/imported/DamageSet.svg-29000a006137e893c2f19b7d6abb1828.ctex"
+uid="uid://fpg8twpb8vxt"
+path="res://.godot/imported/PlayerInputController.svg-67fc7f75c5992ff3b21b400a0c516952.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://src/Damage/assets/DamageSet.svg"
-dest_files=["res://.godot/imported/DamageSet.svg-29000a006137e893c2f19b7d6abb1828.ctex"]
+source_file="res://src/Interactable/Damage/assets/PlayerInputController.svg"
+dest_files=["res://.godot/imported/PlayerInputController.svg-67fc7f75c5992ff3b21b400a0c516952.ctex"]
 
 [params]
 

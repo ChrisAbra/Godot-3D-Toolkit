@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dj67uxhgtkgqg"
-path="res://.godot/imported/Damagable.svg-55d687b0a4fba7c874e5a91d3fcd07d2.ctex"
+uid="uid://vexne8j4f3nj"
+path="res://.godot/imported/DamageSet.svg-839923e1467510eff3a88acb2e5040a5.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://src/Damage/assets/Damagable.svg"
-dest_files=["res://.godot/imported/Damagable.svg-55d687b0a4fba7c874e5a91d3fcd07d2.ctex"]
+source_file="res://src/Interactable/Damage/assets/DamageSet.svg"
+dest_files=["res://.godot/imported/DamageSet.svg-839923e1467510eff3a88acb2e5040a5.ctex"]
 
 [params]
 

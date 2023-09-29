@@ -12,4 +12,7 @@
     <Using Include="Godot" />
     <Using Include="Godot.Collections" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interactable/" />
+  </ItemGroup>
 </Project>

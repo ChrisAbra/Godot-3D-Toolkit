@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cuv2nuxpmvk2m"
-path="res://.godot/imported/Damage.svg-de20bb92a53b588ffb30575df7f2b2b0.ctex"
+uid="uid://bcupmb5p2hpqu"
+path="res://.godot/imported/Recharger.svg-c23c813ae00d85636fb0c22aaecf5b33.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://src/Damage/assets/Damage.svg"
-dest_files=["res://.godot/imported/Damage.svg-de20bb92a53b588ffb30575df7f2b2b0.ctex"]
+source_file="res://src/Interactable/Damage/assets/Recharger.svg"
+dest_files=["res://.godot/imported/Recharger.svg-c23c813ae00d85636fb0c22aaecf5b33.ctex"]
 
 [params]
 

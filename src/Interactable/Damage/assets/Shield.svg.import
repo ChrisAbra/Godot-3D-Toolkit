@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtgcc27234m4o"
-path="res://.godot/imported/HurtBox3D.svg-dc222fd8ba986261adf3c066e9aeefdd.ctex"
+uid="uid://cif3gox5602r"
+path="res://.godot/imported/Shield.svg-0c841a124368b19b371ce6c1fd6f2a74.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://src/Damage/assets/HurtBox3D.svg"
-dest_files=["res://.godot/imported/HurtBox3D.svg-dc222fd8ba986261adf3c066e9aeefdd.ctex"]
+source_file="res://src/Interactable/Damage/assets/Shield.svg"
+dest_files=["res://.godot/imported/Shield.svg-0c841a124368b19b371ce6c1fd6f2a74.ctex"]
 
 [params]
 
