@@ -18,11 +18,11 @@ public partial class PickupArea3D : InteractionArea3D<Pickup>
 
     public override Pickup duplicatedResource => (Pickup)Pickup.Duplicate(true);
 
-    public override void OnAreaEntered(Area3D enteringArea){
+    public override void OnInteraction(IInteractor<Pickup> interactor, Node node){
 
-        base.OnAreaEntered(enteringArea);
+        base.OnInteraction(interactor,node);
 
-        EmitSignal(SignalName.Collected, Pickup, enteringArea);
+        EmitSignal(SignalName.Collected, Pickup, node);
 
         if(QueueFreeOnCollection is not null) QueueFreeOnCollection.QueueFree(); 
 
