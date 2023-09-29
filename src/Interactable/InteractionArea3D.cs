@@ -6,6 +6,7 @@ public abstract partial class InteractionArea3D<T> : Area3D, IInteractable<T> wh
 
     public InteractionArea3D(){
         AreaEntered += OnAreaEntered;
+        BodyEntered += OnBodyEntered;
     }
 
     public virtual void OnAreaEntered(Area3D enteringArea){
@@ -14,6 +15,11 @@ public abstract partial class InteractionArea3D<T> : Area3D, IInteractable<T> wh
 
         interactor.Interact(duplicatedResource, this);
 
+    }
+
+    public virtual void OnBodyEntered(Node enteringBody){
+        if(enteringBody is not IInteractor<T> interactor) return;
+        interactor.Interact(duplicatedResource, this);
     }
 
 
