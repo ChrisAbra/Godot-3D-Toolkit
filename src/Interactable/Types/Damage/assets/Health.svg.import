@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://onfmwig3fqsw"
-path="res://.godot/imported/Health.svg-07112b5e3eb4791a74183d1d68c6e83b.ctex"
+path="res://.godot/imported/Health.svg-0935500de9593e891d38fbaa061b28aa.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://src/Interactable/Damage/assets/Health.svg"
-dest_files=["res://.godot/imported/Health.svg-07112b5e3eb4791a74183d1d68c6e83b.ctex"]
+source_file="res://src/Interactable/Types/Damage/assets/Health.svg"
+dest_files=["res://.godot/imported/Health.svg-0935500de9593e891d38fbaa061b28aa.ctex"]
 
 [params]
 

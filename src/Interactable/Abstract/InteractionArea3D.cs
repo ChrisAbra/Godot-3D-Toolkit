@@ -6,18 +6,25 @@ public abstract partial class InteractionArea3D<T> : Area3D, IInteractable<T> wh
 
     public InteractionArea3D(){
         Monitorable = false;
+        ConnectHandshakeToEntered();
+    }
+
+    public virtual void ConnectHandshakeToEntered(){
         AreaEntered += (area) => {
             if(area is not IInteractor<T> interactor) return;
-            OnInteraction(interactor, area);
+            (this as IInteractable<T>).Handshake(interactor);
         };
         BodyEntered += (node) => {
             if(node is not IInteractor<T> interactor) return;
-            OnInteraction(interactor, node);
+            (this as IInteractable<T>).Handshake(interactor);
         };
     }
 
-    public virtual void OnInteraction(IInteractor<T> interactor, Node node){
-        interactor.Interact(duplicatedResource, this);
+    public abstract void InteractionAccepted(IInteractor<T> interactor, Node interactingNode);
+
+    public virtual void InteractionRejected(IInteractor<T> interactor, Node interactingNode)
+    {
+        return;
     }
 
 }

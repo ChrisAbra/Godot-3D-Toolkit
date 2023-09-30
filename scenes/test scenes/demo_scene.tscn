@@ -1,8 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://bemdui8jvt388"]
+[gd_scene load_steps=23 format=3 uid="uid://bemdui8jvt388"]
 
-[ext_resource type="Script" path="res://src/Interactable/Pickups/nodes/PickupArea3D.cs" id="1_fmv5l"]
-[ext_resource type="Script" path="res://src/Interactable/Pickups/resources/Pickup.cs" id="2_ae1iu"]
-[ext_resource type="Script" path="res://src/Interactable/Pickups/nodes/PickupCollectorArea3D.cs" id="3_aik27"]
+[ext_resource type="Script" path="res://src/Interactable/Types/Pickups/nodes/PickupArea3D.cs" id="1_jm6dq"]
+[ext_resource type="Script" path="res://src/Interactable/Types/Pickups/resources/Pickup.cs" id="2_g8g5p"]
+[ext_resource type="Script" path="res://src/Interactable/Types/Pickups/nodes/PickupCollectorArea3D.cs" id="2_slu24"]
+[ext_resource type="Script" path="res://src/Interactable/Types/Damage/nodes/HitArea3D.cs" id="4_ao3b7"]
+[ext_resource type="Script" path="res://src/Interactable/Types/Damage/nodes/Hitscan3D.cs" id="5_ltc5s"]
+[ext_resource type="Script" path="res://src/Interactable/Types/Damage/resources/Damage.cs" id="6_w4usx"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s7n4f"]
 sky_top_color = Color(0.290196, 0.435294, 0.752941, 1)
@@ -30,12 +33,6 @@ volumetric_fog_density = 0.0144
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gt7lp"]
 albedo_color = Color(1, 0.321569, 1, 1)
-
-[sub_resource type="Resource" id="Resource_htbh1"]
-script = ExtResource("2_ae1iu")
-Amount = 10
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_xa6tl"]
 
 [sub_resource type="Animation" id="Animation_0adfd"]
 resource_name = "PickupAnimation"
@@ -263,9 +260,20 @@ _data = {
 "RESET": SubResource("Animation_8kv6g")
 }
 
+[sub_resource type="Resource" id="Resource_deqoi"]
+script = ExtResource("2_g8g5p")
+Amount = 0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tx6rq"]
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_wv5xn"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_1imwa"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_gf45m"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_i8p5g"]
+
+[sub_resource type="Resource" id="Resource_b3v14"]
+script = ExtResource("6_w4usx")
 
 [node name="DemoScene" type="Node3D"]
 
@@ -295,31 +303,51 @@ transform = Transform3D(0.678976, -2.31571e-16, 0.198813, 2.47639e-16, 1, -2.371
 mesh = SubResource("BoxMesh_a1dwg")
 material = SubResource("StandardMaterial3D_gt7lp")
 
-[node name="PickupArea3D" type="Area3D" parent="CSGMesh3D" node_paths=PackedStringArray("Animator")]
-script = ExtResource("1_fmv5l")
-Pickup = SubResource("Resource_htbh1")
-Animator = NodePath("../AnimationPlayer")
-AnimationOnCollection = &"PickupAnimation"
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CSGMesh3D/PickupArea3D"]
-shape = SubResource("BoxShape3D_xa6tl")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CSGMesh3D"]
 speed_scale = 10.0
 libraries = {
 "": SubResource("AnimationLibrary_8tkyo")
 }
 
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.62758, 0)
+[node name="PickupArea3D" type="Area3D" parent="CSGMesh3D" node_paths=PackedStringArray("Animator")]
+script = ExtResource("1_jm6dq")
+Pickup = SubResource("Resource_deqoi")
+Animator = NodePath("../AnimationPlayer")
+AnimationOnAccepted = &"PickupAnimation"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CSGMesh3D/PickupArea3D"]
+shape = SubResource("BoxShape3D_tx6rq")
+
+[node name="Ball" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0693785, 2.62758, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball"]
 shape = SubResource("SphereShape3D_wv5xn")
 
-[node name="CSGSphere3D" type="CSGSphere3D" parent="RigidBody3D"]
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Ball"]
 
-[node name="PickupCollectorArea3D" type="Area3D" parent="RigidBody3D"]
-script = ExtResource("3_aik27")
+[node name="PickupCollectorArea3D" type="Area3D" parent="Ball"]
+script = ExtResource("2_slu24")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D/PickupCollectorArea3D"]
-shape = SubResource("BoxShape3D_1imwa")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball/PickupCollectorArea3D"]
+shape = SubResource("BoxShape3D_gf45m")
+
+[node name="HitArea3D" type="Area3D" parent="Ball" node_paths=PackedStringArray("ReplyNode")]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("4_ao3b7")
+ReplyNode = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball/HitArea3D"]
+shape = SubResource("SphereShape3D_i8p5g")
+
+[node name="Hitscan3D" type="RayCast3D" parent="."]
+transform = Transform3D(-0.0153774, 0.214036, -0.976705, 0.0033694, 0.976826, 0.21401, 0.999876, -2.21823e-10, -0.0157422, -2.70426, 0.951189, 0.110198)
+target_position = Vector3(2.08165e-12, 2.08165e-12, -10)
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
+debug_shape_thickness = 4
+script = ExtResource("5_ltc5s")
+Damage = SubResource("Resource_b3v14")
+Range = 4.0

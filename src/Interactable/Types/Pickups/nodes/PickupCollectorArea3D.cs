@@ -4,11 +4,10 @@ public partial class PickupCollectorArea3D : InteractorArea3D<Pickup>
 {
     [Signal]
     public delegate void PickupEventHandler(Pickup pickup, Node node);
-    public override bool Interact(Pickup pickup, IInteractable<Pickup> source = null)
+
+    protected override void AcceptResource(Pickup pickup)
     {
         GD.Print(pickup.Amount);
-        GD.Print(source);
         EmitSignal(SignalName.Pickup,pickup);
-        return true;
     }
 }

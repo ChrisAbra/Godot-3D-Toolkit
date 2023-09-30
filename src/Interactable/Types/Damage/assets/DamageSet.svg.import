@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cw0svtj1bm115"
-path="res://.godot/imported/Hitscan3D.svg-a05c01b5c0d777b451e9cf3901ce767a.ctex"
+uid="uid://vexne8j4f3nj"
+path="res://.godot/imported/DamageSet.svg-7d8aed4ef019e027be37f5ab63ea7cef.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://src/Interactable/Damage/assets/Hitscan3D.svg"
-dest_files=["res://.godot/imported/Hitscan3D.svg-a05c01b5c0d777b451e9cf3901ce767a.ctex"]
+source_file="res://src/Interactable/Types/Damage/assets/DamageSet.svg"
+dest_files=["res://.godot/imported/DamageSet.svg-7d8aed4ef019e027be37f5ab63ea7cef.ctex"]
 
 [params]
 
