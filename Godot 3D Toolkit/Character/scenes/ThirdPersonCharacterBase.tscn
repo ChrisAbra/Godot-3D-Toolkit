@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://dqwcybxhg46na"]
+
+[ext_resource type="PackedScene" uid="uid://qew3gwg011bl" path="res://Godot 3D Toolkit/Character/scenes/CharacterBase.tscn" id="1_6riya"]
+[ext_resource type="Script" path="res://Godot 3D Toolkit/Character/src/ThirdPersonCharacter.cs" id="1_c13gv"]
+[ext_resource type="Script" path="res://Godot 3D Toolkit/VirtualCamera/src/VirtualCamera.cs" id="3_13e3x"]
+[ext_resource type="Script" path="res://Godot 3D Toolkit/VirtualCamera/src/VirtualCameraLook.cs" id="4_ubfdn"]
+
+[sub_resource type="Curve" id="Curve_1c18x"]
+min_value = 1.0
+max_value = 4.0
+_data = [Vector2(0, 2.24589), 0.0, 0.0, 0, 0, Vector2(0.491999, 3.69113), 0.0, 0.0, 0, 0, Vector2(0.999283, 2.29354), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_m1q6b"]
+
+[node name="CharacterBase" node_paths=PackedStringArray("CameraLockLookTarget", "FreeLookTarget", "CameraArm") instance=ExtResource("1_6riya")]
+script = ExtResource("1_c13gv")
+InvertY = false
+LookSpeedVertical = 6.0
+LookSpeedHorizontal = 5.0
+MaxCameraHeight = 4.0
+MinCameraHeight = 0.5
+DefaultCameraHeight = 2.34
+DefaultCameraHeightRestitutionStrength = 0.5
+HeightToRange = SubResource("Curve_1c18x")
+CoyoteTime = 0.2
+CameraLockLookTarget = NodePath("Character/StrafeRemote")
+FreeLookTarget = NodePath("CameraRig/FreeLookRemote")
+CameraArm = NodePath("CameraRig/CameraArm")
+
+[node name="CameraRig" type="Node3D" parent="." index="1"]
+
+[node name="CameraArm" type="SpringArm3D" parent="CameraRig" index="0"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65224, 0)
+shape = SubResource("SeparationRayShape3D_m1q6b")
+
+[node name="VirtualCamera" type="Marker3D" parent="CameraRig/CameraArm" index="0"]
+script = ExtResource("3_13e3x")
+
+[node name="VirtualCameraLook" type="Marker3D" parent="CameraRig" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85479, 1.58093, 0)
+script = ExtResource("4_ubfdn")
+
+[node name="FreeLookRemote" type="RemoteTransform3D" parent="CameraRig" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85479, 1.58093, 0)
+remote_path = NodePath("../VirtualCameraLook")
+
+[node name="StrafeRemote" type="RemoteTransform3D" parent="Character" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.699603, 1.60241, 0)
+remote_path = NodePath("../../CameraRig/VirtualCameraLook")

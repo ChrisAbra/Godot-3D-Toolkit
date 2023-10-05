@@ -13,6 +13,9 @@
     <Using Include="Godot.Collections" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="addons/" />
+    <Folder Include="Godot 3D Toolkit/Character/scenes/" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="GodotSharp.SourceGenerators" Version="2.1.1" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,83 @@
+[gd_scene load_steps=12 format=3 uid="uid://cgfa43i23vpei"]
+
+[ext_resource type="Texture2D" uid="uid://bn8wbmmqwkhdx" path="res://scenes/test scenes/test_assets/DxI0X41X0AUwQSM.jpg" id="1_eob3f"]
+[ext_resource type="PackedScene" uid="uid://bbrmecagutuig" path="res://Godot 3D Toolkit/Character/scenes/ExamplePlayer.tscn" id="2_pxseq"]
+[ext_resource type="Script" path="res://Godot 3D Toolkit/VirtualCamera/src/VirtualCameraBrain.cs" id="3_ibgff"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6oxek"]
+
+[sub_resource type="Sky" id="Sky_kp14n"]
+sky_material = SubResource("ProceduralSkyMaterial_6oxek")
+
+[sub_resource type="Environment" id="Environment_eay37"]
+background_mode = 2
+sky = SubResource("Sky_kp14n")
+ambient_light_source = 3
+ambient_light_color = Color(0.317647, 0.72549, 0.619608, 1)
+reflected_light_source = 2
+tonemap_mode = 3
+fog_enabled = true
+fog_sky_affect = 0.1
+fog_height = 2.0
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_je8od"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_q547d"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u17bc"]
+albedo_texture = ExtResource("1_eob3f")
+uv1_scale = Vector3(20, 20, 20)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_df8qt"]
+radius = 0.1
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_vdbdp"]
+texture_filter = 1
+
+[node name="DemoScene" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_eay37")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(0.876054, 0.358686, -0.322294, 1.36711e-17, 0.668365, 0.743833, 0.482212, -0.651639, 0.585524, 0, 5.44959, 0)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape3D_je8od")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+mesh = SubResource("PlaneMesh_q547d")
+material = SubResource("StandardMaterial3D_u17bc")
+metadata/_edit_lock_ = true
+
+[node name="Player" parent="." instance=ExtResource("2_pxseq")]
+DefaultCameraHeight = 2.0
+
+[node name="VirtualCameraBrain" type="CharacterBody3D" parent="."]
+transform = Transform3D(0.888417, 0, -0.459037, 0, 1, 0, 0.459037, 0, 0.888417, -3.14972, 2.39488, 4.05997)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("3_ibgff")
+Speed = 3.0
+
+[node name="Camera3D" type="Camera3D" parent="VirtualCameraBrain"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VirtualCameraBrain"]
+shape = SubResource("SphereShape3D_df8qt")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_vdbdp")
