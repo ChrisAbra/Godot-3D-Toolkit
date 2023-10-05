@@ -1,11 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://bemdui8jvt388"]
+[gd_scene load_steps=21 format=3 uid="uid://bemdui8jvt388"]
 
-[ext_resource type="Script" path="res://src/Interactable/Types/Pickups/nodes/PickupArea3D.cs" id="1_jm6dq"]
-[ext_resource type="Script" path="res://src/Interactable/Types/Pickups/resources/Pickup.cs" id="2_g8g5p"]
-[ext_resource type="Script" path="res://src/Interactable/Types/Pickups/nodes/PickupCollectorArea3D.cs" id="2_slu24"]
-[ext_resource type="Script" path="res://src/Interactable/Types/Damage/nodes/HitArea3D.cs" id="4_ao3b7"]
-[ext_resource type="Script" path="res://src/Interactable/Types/Damage/nodes/Hitscan3D.cs" id="5_ltc5s"]
-[ext_resource type="Script" path="res://src/Interactable/Types/Damage/resources/Damage.cs" id="6_w4usx"]
+[ext_resource type="Script" path="res://addons/Interactable/src/Types/Pickups/nodes/PickupArea3D.cs" id="1_k7j6p"]
+[ext_resource type="Script" path="res://addons/Interactable/src/Types/Pickups/resources/Pickup.cs" id="2_57b1t"]
+[ext_resource type="Script" path="res://addons/Interactable/src/Types/Pickups/nodes/PickupCollectorArea3D.cs" id="3_1uvuq"]
+[ext_resource type="Script" path="res://addons/Interactable/src/Types/Damage/nodes/HitArea3D.cs" id="4_1ud3r"]
+[ext_resource type="Script" path="res://addons/Interactable/src/Types/Damage/nodes/Hitscan3D.cs" id="5_thpwx"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s7n4f"]
 sky_top_color = Color(0.290196, 0.435294, 0.752941, 1)
@@ -261,8 +260,8 @@ _data = {
 }
 
 [sub_resource type="Resource" id="Resource_deqoi"]
-script = ExtResource("2_g8g5p")
-Amount = 0
+script = ExtResource("2_57b1t")
+Amount = 3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tx6rq"]
 
@@ -271,9 +270,6 @@ Amount = 0
 [sub_resource type="BoxShape3D" id="BoxShape3D_gf45m"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_i8p5g"]
-
-[sub_resource type="Resource" id="Resource_b3v14"]
-script = ExtResource("6_w4usx")
 
 [node name="DemoScene" type="Node3D"]
 
@@ -310,7 +306,7 @@ libraries = {
 }
 
 [node name="PickupArea3D" type="Area3D" parent="CSGMesh3D" node_paths=PackedStringArray("Animator")]
-script = ExtResource("1_jm6dq")
+script = ExtResource("1_k7j6p")
 Pickup = SubResource("Resource_deqoi")
 Animator = NodePath("../AnimationPlayer")
 AnimationOnAccepted = &"PickupAnimation"
@@ -319,7 +315,7 @@ AnimationOnAccepted = &"PickupAnimation"
 shape = SubResource("BoxShape3D_tx6rq")
 
 [node name="Ball" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0693785, 2.62758, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0693785, 2.62758, 0.0649852)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ball"]
 shape = SubResource("SphereShape3D_wv5xn")
@@ -327,27 +323,26 @@ shape = SubResource("SphereShape3D_wv5xn")
 [node name="CSGSphere3D" type="CSGSphere3D" parent="Ball"]
 
 [node name="PickupCollectorArea3D" type="Area3D" parent="Ball"]
-script = ExtResource("2_slu24")
+script = ExtResource("3_1uvuq")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ball/PickupCollectorArea3D"]
 shape = SubResource("BoxShape3D_gf45m")
 
-[node name="HitArea3D" type="Area3D" parent="Ball" node_paths=PackedStringArray("ReplyNode")]
+[node name="HitArea3D" type="Area3D" parent="Ball" node_paths=PackedStringArray("ReplyNode", "HitBody")]
 collision_layer = 2
 collision_mask = 2
-script = ExtResource("4_ao3b7")
+script = ExtResource("4_1ud3r")
 ReplyNode = NodePath("..")
+HitBody = NodePath("..")
+ImpulseMultipler = 3.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ball/HitArea3D"]
 shape = SubResource("SphereShape3D_i8p5g")
 
 [node name="Hitscan3D" type="RayCast3D" parent="."]
-transform = Transform3D(-0.0153774, 0.214036, -0.976705, 0.0033694, 0.976826, 0.21401, 0.999876, -2.21823e-10, -0.0157422, -2.70426, 0.951189, 0.110198)
+transform = Transform3D(0.0304668, 0.213811, -0.9764, 0.0033694, 0.976826, 0.21401, 0.99953, -0.00981008, 0.0290404, -2.70426, 0.951189, 0.110198)
 target_position = Vector3(2.08165e-12, 2.08165e-12, -10)
 collision_mask = 2
-collide_with_areas = true
-collide_with_bodies = false
 debug_shape_thickness = 4
-script = ExtResource("5_ltc5s")
-Damage = SubResource("Resource_b3v14")
-Range = 4.0
+script = ExtResource("5_thpwx")
+Range = 20.0

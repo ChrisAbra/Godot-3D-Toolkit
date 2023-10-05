@@ -13,6 +13,6 @@
     <Using Include="Godot.Collections" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Interactable/" />
+    <Folder Include="addons/" />
   </ItemGroup>
 </Project>
