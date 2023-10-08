@@ -1,12 +1,56 @@
-[gd_scene load_steps=3 format=3 uid="uid://qew3gwg011bl"]
+[gd_scene load_steps=8 format=3 uid="uid://qew3gwg011bl"]
 
-[ext_resource type="Script" path="res://Godot 3D Toolkit/Character/src/CharacterBase.cs" id="1_5rx8v"]
+[ext_resource type="Script" path="res://Godot 3D Toolkit/Character/src/Controllers/CharacterBase.cs" id="1_5rx8v"]
+[ext_resource type="Script" path="res://Godot 3D Toolkit/Character/src/Movement/CharacterMovementStateMachine.cs" id="4_khuv4"]
+[ext_resource type="Script" path="res://Godot 3D Toolkit/Character/src/Movement/CharacterMovementState.cs" id="5_xsj0n"]
+[ext_resource type="Script" path="res://Godot 3D Toolkit/Character/src/Movement/CharacterMovementStats.cs" id="6_a4du4"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dohyq"]
 
-[node name="CharacterBase" type="CharacterBody3D" node_paths=PackedStringArray("CharacterModel")]
+[sub_resource type="Resource" id="Resource_q1jbm"]
+script = ExtResource("6_a4du4")
+Speed = 5.0
+Acceleration = 1.0
+JumpVelocity = 4.5
+CameraLock = false
+TurnSpeed = 4.5
+PushForce = 1.0
+InvertY = false
+LookSpeedVertical = 6.0
+LookSpeedHorizontal = 5.0
+MaxCameraHeight = 4.0
+MinCameraHeight = 0.5
+DefaultCameraHeight = 2.0
+CameraRestitution = 0.5
+CoyoteTime = 0.2
+FocalLength = 15.0
+CameraPositionTightness = 10.0
+ZoomSpeed = 15.0
+
+[sub_resource type="Resource" id="Resource_hejre"]
+script = ExtResource("6_a4du4")
+Speed = 5.0
+Acceleration = 1.0
+JumpVelocity = 4.5
+CameraLock = true
+TurnSpeed = 4.5
+PushForce = 1.0
+InvertY = false
+LookSpeedVertical = 6.0
+LookSpeedHorizontal = 5.0
+MaxCameraHeight = 4.0
+MinCameraHeight = 0.5
+DefaultCameraHeight = 2.0
+CameraRestitution = 0.5
+CoyoteTime = 0.2
+FocalLength = 15.0
+CameraPositionTightness = 10.0
+ZoomSpeed = 15.0
+
+[node name="CharacterBase" type="CharacterBody3D" node_paths=PackedStringArray("CharacterModel", "MovementStateMachine")]
 script = ExtResource("1_5rx8v")
 CharacterModel = NodePath("Character")
+MovementStateMachine = NodePath("CharacterMovementStateMachine")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1, 2.08165e-12)
@@ -19,3 +63,17 @@ unique_name_in_owner = true
 
 [node name="AnimationTree" type="AnimationTree" parent="Character"]
 anim_player = NodePath("../AnimationPlayer")
+
+[node name="CharacterMovementStateMachine" type="Node" parent="." node_paths=PackedStringArray("InitialState")]
+script = ExtResource("4_khuv4")
+InitialState = NodePath("Default")
+
+[node name="Default" type="Node" parent="CharacterMovementStateMachine"]
+unique_name_in_owner = true
+script = ExtResource("5_xsj0n")
+Resource = SubResource("Resource_q1jbm")
+
+[node name="Aiming" type="Node" parent="CharacterMovementStateMachine"]
+unique_name_in_owner = true
+script = ExtResource("5_xsj0n")
+Resource = SubResource("Resource_hejre")

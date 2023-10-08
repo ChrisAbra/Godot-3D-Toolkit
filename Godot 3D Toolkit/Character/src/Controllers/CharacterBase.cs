@@ -1,48 +1,38 @@
-using Godot;
-using System;
 namespace Godot3dToolkit.Character;
 
 
 [GlobalClass]
 public partial class CharacterBase : CharacterBody3D
 {
-    [Export]
-    public float Speed = 5.0f;
-    [Export]
-    public float JumpVelocity = 4.5f;
 
     [Export]
-    public bool CameraLock = false;
+    protected Node3D CharacterModel;
+
+    protected CharacterMovementStats movementStats { 
+        get => MovementStateMachine?.ActiveState?.Resource ?? new();
+    }
 
     [Export]
-    public float TurnSpeed = 4.5f;
+    public CharacterMovementStateMachine MovementStateMachine;
 
-    [Export]
-    public float PushForce = 1;
 
     protected float UngroundedTime = 0;
 
     // Get the gravity from the project settings to be synced with RigidBody nodes.
     protected float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
-    [Export]
-    protected Node3D CharacterModel;
-
     protected float deltaf;
     protected float strafeTargetAngle;
 
-    private Vector3 VECTOR3_UP = Vector3.Up;
+    private Vector3 previousVelocity = new();
+    public Vector3 Acceleration = new();
 
-    protected Vector2 moveVector;
-
-    private Vector3 previousVelocity = new Vector3();
-    public Vector3 Acceleration = new Vector3();
+    private bool validResource = false;
 
     protected float UngroundedMoveAttenuation
     {
         get => Mathf.Clamp(1 - UngroundedTime, 0, 1);
     }
-
 
     public override void _Ready()
     {
@@ -68,13 +58,13 @@ public partial class CharacterBase : CharacterBody3D
         Fall();
         MoveAndSlide();
 
-        if (CameraLock) RotateTowardStrafeTarget();
+        if (movementStats.CameraLock) RotateTowardStrafeTarget();
 
         if (Velocity.Length() > 0)
         {
             if ((Velocity * new Vector3(1, 0, 1)).Length() > 1)
             {
-                if (!CameraLock) RotateTowardVelocity();
+                if (!movementStats.CameraLock) RotateTowardVelocity();
             }
             CollideWithRigidBodies();
         }
@@ -96,14 +86,14 @@ public partial class CharacterBase : CharacterBody3D
 
     public virtual void Jump()
     {
-        if (IsOnFloor()) Velocity = Velocity with { Y = JumpVelocity };
+        if (IsOnFloor()) Velocity = Velocity with { Y = movementStats.JumpVelocity };
     }
 
     public virtual void RotateTowardStrafeTarget()
     {
         CharacterModel.Rotation = CharacterModel.Rotation with
         {
-            Y = Mathf.LerpAngle(CharacterModel.Rotation.Y, strafeTargetAngle, TurnSpeed * deltaf)
+            Y = Mathf.LerpAngle(CharacterModel.Rotation.Y, strafeTargetAngle, movementStats.TurnSpeed * deltaf)
         }; ;
 
     }
@@ -112,15 +102,15 @@ public partial class CharacterBase : CharacterBody3D
     {
         //Cache rotation, look at new place, lerp between new and old, set to cached
         var modelRotation = CharacterModel.Rotation;
-        CharacterModel.LookAt(Transform.Origin + Velocity, VECTOR3_UP);
-        modelRotation.Y = Mathf.LerpAngle(modelRotation.Y, CharacterModel.Rotation.Y, TurnSpeed * deltaf);
+        CharacterModel.LookAt(Transform.Origin + Velocity, Vector3.Up);
+        modelRotation.Y = Mathf.LerpAngle(modelRotation.Y, CharacterModel.Rotation.Y, movementStats.TurnSpeed * deltaf);
         CharacterModel.Rotation = modelRotation;
     }
 
     public virtual void CollideWithRigidBodies()
     {
 
-        var pushImpulseStrength = PushForce * Velocity.Length();
+        var pushImpulseStrength = movementStats.PushForce * Velocity.Length();
         for (var i = 0; i < GetSlideCollisionCount(); i++)
         {
             var collider = GetSlideCollision(i);

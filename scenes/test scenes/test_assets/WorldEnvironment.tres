@@ -1,0 +1,19 @@
+[gd_resource type="Environment" load_steps=3 format=3 uid="uid://b8h5f648qhp3p"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_gowh0"]
+
+[sub_resource type="Sky" id="Sky_kp14n"]
+sky_material = SubResource("PhysicalSkyMaterial_gowh0")
+radiance_size = 2
+
+[resource]
+background_mode = 2
+sky = SubResource("Sky_kp14n")
+ambient_light_source = 3
+ambient_light_color = Color(0.262745, 0.560784, 0.937255, 1)
+reflected_light_source = 2
+tonemap_mode = 2
+ssao_enabled = true
+fog_sky_affect = 0.1
+fog_height = 2.0
+volumetric_fog_detail_spread = 2.63902

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CharacterMovementStats" load_steps=3 format=3 uid="uid://cjob58cc4k6ly"]
+
+[ext_resource type="Script" path="res://Godot 3D Toolkit/Character/src/Movement/CharacterMovementStats.cs" id="1_e12gy"]
+[ext_resource type="Curve" uid="uid://dg1qhpl4g1w4v" path="res://Godot 3D Toolkit/Character/scenes/default_camera_distance_curve.tres" id="1_l4jck"]
+
+[resource]
+script = ExtResource("1_e12gy")
+Speed = 5.0
+Acceleration = 1.0
+JumpVelocity = 4.5
+CameraLock = false
+TurnSpeed = 4.5
+PushForce = 1.0
+InvertY = false
+LookSpeedVertical = 8.0
+LookSpeedHorizontal = 8.0
+MaxCameraHeight = 4.0
+MinCameraHeight = 0.5
+DefaultCameraHeight = 2.0
+CameraRestitution = 0.5
+HeightToRange = ExtResource("1_l4jck")
+CoyoteTime = 0.2
+FocalLength = 15.0
+CameraPositionTightness = 10.0
+ZoomSpeed = 15.0

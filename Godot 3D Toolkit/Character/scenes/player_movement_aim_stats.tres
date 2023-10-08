@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="CharacterMovementStats" load_steps=3 format=3 uid="uid://c4cxmvdahre8h"]
+
+[ext_resource type="Script" path="res://Godot 3D Toolkit/Character/src/Movement/CharacterMovementStats.cs" id="2_lkebb"]
+
+[sub_resource type="Curve" id="Curve_qdeb8"]
+min_value = 0.5
+max_value = 2.0
+_data = [Vector2(0, 0.995893), 0.0, 0.0, 0, 0, Vector2(0.494871, 1.62322), 0.0, 0.0, 0, 0, Vector2(0.995814, 1.47234), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[resource]
+script = ExtResource("2_lkebb")
+Speed = 2.0
+Acceleration = 0.5
+JumpVelocity = 4.5
+CameraLock = true
+TurnSpeed = 8.0
+PushForce = 1.0
+InvertY = false
+LookSpeedVertical = 3.0
+LookSpeedHorizontal = 3.0
+MaxCameraHeight = 3.0
+MinCameraHeight = 1.0
+DefaultCameraHeight = 1.79
+CameraRestitution = 2.08165e-12
+HeightToRange = SubResource("Curve_qdeb8")
+CoyoteTime = 0.2
+FocalLength = 30.0
+CameraPositionTightness = 10.0
+ZoomSpeed = 40.0
