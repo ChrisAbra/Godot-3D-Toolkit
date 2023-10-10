@@ -1,3 +1,4 @@
+
 namespace Godot3dToolkit.Character;
 
 
@@ -9,7 +10,7 @@ public partial class CharacterBase : CharacterBody3D
     protected Node3D CharacterModel;
 
     protected CharacterMovementStats movementStats { 
-        get => MovementStateMachine?.ActiveState?.Resource ?? new();
+        get => MovementStateMachine?.ActiveResource ?? new();
     }
 
     [Export]
@@ -39,6 +40,8 @@ public partial class CharacterBase : CharacterBody3D
         base._Ready();
         CharacterModel ??= GetNode<Node3D>("%Character");
     }
+
+
 
     public override void _PhysicsProcess(double delta)
     {

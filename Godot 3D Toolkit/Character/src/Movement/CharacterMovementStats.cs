@@ -6,7 +6,7 @@ namespace Godot3dToolkit;
 public partial class CharacterMovementStats : Resource
 {
 
-    [ExportGroup("Basic")]
+    [ExportGroup("Locomotion")]
 
     [Export]
     public float Speed = 5.0f;
@@ -25,7 +25,7 @@ public partial class CharacterMovementStats : Resource
     [Export]
     public float PushForce = 1;
 
-    [ExportGroup("Third-Person Controller")]
+    [ExportGroup("Camera")]
 
     [Export]
     public bool InvertY = false;

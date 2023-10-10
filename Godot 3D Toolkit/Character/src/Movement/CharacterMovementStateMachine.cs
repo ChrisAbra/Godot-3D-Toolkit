@@ -6,43 +6,30 @@ namespace Godot3dToolkit.Character;
 [GlobalClass]
 [Icon("uid://p22dsoj1fm83")]
 
-public partial class CharacterMovementStateMachine : StateMachine<CharacterMovementStats, CharacterMovementState>
+public partial class CharacterMovementStateMachine : ResourceStateMachine<CharacterMovementStats>
 {
+
     [Export]
-    public override CharacterMovementState InitialState {get;set;}
+    public override CharacterMovementStats DefaultResource {get;set;}
 
-    public override void _Input(InputEvent @event)
+    [Export]
+    public CharacterMovementStats AimingStats;
+    public bool isAiming;
+    [Export]
+    public CharacterMovementStats SprintingStats;
+    public bool isSprinting;
+    public bool isGrounded;
+
+
+    public override void _Process(double delta)
     {
-        base._Input(@event);
-        if(@event.IsActionPressed("AIM")) Aim(true);
-        else if(@event.IsActionReleased("AIM")) Aim(false);
+        if(!isGrounded) ActiveResource = DefaultResource;
 
-        if(@event.IsActionPressed("SPRINT")) Sprint(true);
-        else if(@event.IsActionReleased("SPRINT")) Sprint(false);
+        else if(isAiming) ActiveResource = AimingStats;
 
+        else if(isSprinting) ActiveResource = SprintingStats;
+
+        else if(ActiveResource != DefaultResource) ActiveResource = DefaultResource;
     }
-
-    public void Aim(bool enable){
-        if(enable){
-            var aimState = GetNodeOrNull<CharacterMovementState>("%Aiming");
-            TrySetState(aimState);
-        }
-        else{
-            TrySetState(InitialState);
-        }
-    }
-
-    public void Sprint(bool enable){
-        if(enable){
-            var sprintState = GetNodeOrNull<CharacterMovementState>("%Sprint");
-            TrySetState(sprintState);
-        }
-        else{
-            TrySetState(InitialState);
-        }
-
-    }
-
-
 
 }   

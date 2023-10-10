@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://qe34yboo26p"]
+
+[ext_resource type="Script" path="res://Godot 3D Toolkit/StateMachines/src/ResourceStateMachine.cs" id="1_tyk0i"]
+[ext_resource type="Script" path="res://Godot 3D Toolkit/StateMachines/src/ResourceState.cs" id="2_fo20w"]
+[ext_resource type="Script" path="res://Godot 3D Toolkit/StateMachines/src/ResourceStateModifer.cs" id="3_lwail"]
+[ext_resource type="Script" path="res://Godot 3D Toolkit/Character/src/Movement/CharacterMovementState.cs" id="3_xideb"]
+
+[node name="CharacterStateMachine" type="Node"]
+script = ExtResource("1_tyk0i")
+DefaultState = Object(Node,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","script":ExtResource("2_fo20w"),"Resource":null,"DefaultSubstate":Object(Node,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","script":ExtResource("2_fo20w"),"Resource":null,"DefaultSubstate":Object(Node,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","script":ExtResource("2_fo20w"),"Resource":null,"DefaultSubstate":null)
+)
+)
+
+
+[node name="Alive" type="Node" parent="." node_paths=PackedStringArray("DefaultSubstate")]
+script = ExtResource("2_fo20w")
+DefaultSubstate = NodePath("Free")
+
+[node name="Free" type="Node" parent="Alive" node_paths=PackedStringArray("DefaultSubstate")]
+script = ExtResource("2_fo20w")
+DefaultSubstate = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="Alive/Free"]
+script = ExtResource("2_fo20w")
+
+[node name="Aiming" type="Node" parent="Alive/Free"]
+script = ExtResource("2_fo20w")
+
+[node name="Moving" type="Node" parent="Alive/Free"]
+script = ExtResource("2_fo20w")
+
+[node name="Aiming" type="Node" parent="Alive/Free/Moving"]
+script = ExtResource("3_xideb")
+
+[node name="Crouched" type="Node" parent="Alive/Free/Moving/Aiming"]
+script = ExtResource("3_lwail")
+
+[node name="Sprinting" type="Node" parent="Alive/Free/Moving"]
+script = ExtResource("3_lwail")
+
+[node name="Crouched" type="Node" parent="Alive/Free/Moving"]
+script = ExtResource("3_lwail")
+
+[node name="Jumping" type="Node" parent="Alive/Free"]
+script = ExtResource("2_fo20w")
+
+[node name="Falling" type="Node" parent="Alive/Free"]
+script = ExtResource("2_fo20w")
+
+[node name="Ragdoll" type="Node" parent="Alive"]
+script = ExtResource("2_fo20w")
+
+[node name="Dead" type="Node" parent="."]
+script = ExtResource("2_fo20w")

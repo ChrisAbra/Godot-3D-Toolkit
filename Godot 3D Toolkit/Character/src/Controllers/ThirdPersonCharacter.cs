@@ -1,7 +1,4 @@
-﻿using System;
-using Godot;
-
-namespace Godot3dToolkit.Character;
+﻿namespace Godot3dToolkit.Character;
 
 [GlobalClass]
 
@@ -15,6 +12,16 @@ public partial class ThirdPersonCharacter : CharacterBase
 
     protected Vector2 lookVector;
 
+    public override void _Input(InputEvent @event)
+    {
+        /*
+        if(@event.IsActionPressed("AIM")) MovementStateMachine.isAiming = true;
+        if(@event.IsActionReleased("AIM")) MovementStateMachine.isAiming = false;
+
+        if(@event.IsActionPressed("SPRINT")) MovementStateMachine.isSprinting = true;
+        else if(@event.IsActionReleased("SPRINT")) MovementStateMachine.isSprinting = false;
+        */
+    }
 
     protected bool IsCoyoteGrounded()
     {
@@ -27,15 +34,17 @@ public partial class ThirdPersonCharacter : CharacterBase
         CameraArm ??= GetNode<SpringArm3D>("%CameraArm");
         VirtualCamera ??= GetNode<VirtualCamera>("%VirtualCamera");
         movementStats.HeightToRange ??= new Curve() { MinValue = 1, MaxValue = 1 };
-
     }
+
+
 
     public override void _PhysicsProcess(double delta)
     {
         deltaf = (float)delta;
+        MovementStateMachine.isGrounded = IsOnFloor();
 
         CameraMove();
-        Zoom();
+        //Zoom();
         PlayerMove();
         base._PhysicsProcess(delta);
     }
@@ -84,7 +93,6 @@ public partial class ThirdPersonCharacter : CharacterBase
 
         if (Input.IsActionJustPressed("JUMP")) Jump();
 
-        //if(!IsOnFloor()) return;
 
         var velocity = Velocity;
 

@@ -1,18 +1,44 @@
-[gd_scene load_steps=6 format=3 uid="uid://dqwcybxhg46na"]
+[gd_scene load_steps=11 format=3 uid="uid://dqwcybxhg46na"]
 
 [ext_resource type="PackedScene" uid="uid://qew3gwg011bl" path="res://Godot 3D Toolkit/Character/scenes/CharacterBase.tscn" id="1_6riya"]
 [ext_resource type="Script" path="res://Godot 3D Toolkit/Character/src/Controllers/ThirdPersonCharacter.cs" id="1_c13gv"]
 [ext_resource type="Script" path="res://Godot 3D Toolkit/VirtualCamera/src/VirtualCamera.cs" id="3_13e3x"]
 [ext_resource type="Script" path="res://Godot 3D Toolkit/VirtualCamera/src/VirtualCameraLook.cs" id="4_ubfdn"]
+[ext_resource type="Resource" uid="uid://cjob58cc4k6ly" path="res://Godot 3D Toolkit/Character/scenes/player_movement_stats.tres" id="5_bustk"]
+[ext_resource type="Resource" uid="uid://c4cxmvdahre8h" path="res://Godot 3D Toolkit/Character/scenes/player_movement_aim_stats.tres" id="6_4w5fn"]
+[ext_resource type="Curve" uid="uid://dg1qhpl4g1w4v" path="res://Godot 3D Toolkit/Character/scenes/default_camera_distance_curve.tres" id="7_vojkg"]
+[ext_resource type="Script" path="res://Godot 3D Toolkit/Character/src/Movement/CharacterMovementStats.cs" id="8_oio0s"]
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_q3lat"]
 auto_exposure_enabled = true
 frustum_focal_length = 15.0
 
-[node name="CharacterBase" node_paths=PackedStringArray("CameraArm") instance=ExtResource("1_6riya")]
+[sub_resource type="Resource" id="Resource_qhfjw"]
+script = ExtResource("8_oio0s")
+Speed = 6.0
+Acceleration = 1.0
+JumpVelocity = 5.0
+CameraLock = false
+TurnSpeed = 4.5
+PushForce = 1.0
+InvertY = false
+LookSpeedVertical = 8.0
+LookSpeedHorizontal = 8.0
+MaxCameraHeight = 4.0
+MinCameraHeight = 0.5
+DefaultCameraHeight = 2.0
+CameraRestitution = 1.0
+HeightToRange = ExtResource("7_vojkg")
+CoyoteTime = 0.2
+FocalLength = 15.0
+CameraPositionTightness = 10.0
+ZoomSpeed = 15.0
+
+[node name="CharacterBase" node_paths=PackedStringArray("CameraArm", "VirtualCamera") instance=ExtResource("1_6riya")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00392866, 3.57628e-07, -0.000652075)
 script = ExtResource("1_c13gv")
 CameraArm = NodePath("CameraRig/CameraArm")
+VirtualCamera = NodePath("CameraRig/CameraArm/VirtualCamera")
 
 [node name="CameraRig" type="Node3D" parent="." index="1"]
 
@@ -29,3 +55,8 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 script = ExtResource("3_13e3x")
 Attributes = SubResource("CameraAttributesPhysical_q3lat")
+
+[node name="CharacterMovementStateMachine" parent="." index="3"]
+DefaultResource = ExtResource("5_bustk")
+AimingStats = ExtResource("6_4w5fn")
+SprintingStats = SubResource("Resource_qhfjw")
